@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo CSS Selector</title>
+    <style>
+        h2 { color: #333; }
+
+        .highlight { background-color: #ffeb3b; padding: 2px 5px; }
+
+        #main-title { color: #d32f2f; text-align: center; }
+
+        .box p { font-style: italic; color: #555; }
+
+        a:hover { color: #e91e63; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1 id="main-title">Tìm hiểu về CSS Selector</h1>
+
+    <h2>1. Element Selector</h2>
+    <p>Thẻ p này chịu ảnh hưởng từ thẻ h2 bên trên hoặc style chung.</p>
+
+    <div class="box">
+        <h2>2. Descendant Selector</h2>
+        <p>Đoạn văn này nằm trong thẻ div có class là box, nên nó có chữ nghiêng và màu xám.</p>
+    </div>
+
+    <p>Đoạn văn bình thường với một <span class="highlight">từ khóa được tô vàng bằng Class Selector</span>.</p>
+
+    <p>Hãy thử di chuột vào <a href="#">đường dẫn liên kết này</a> để thấy Pseudo-class.</p>
+
+</body>
+</html>
