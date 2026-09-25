@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ai? Cái gì? Ở đâu?...</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 18px;
+            background: #eef3f7;
+            font-family: Arial, sans-serif;
+            color: #222;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: auto;
+            background: #fff;
+            box-shadow: 0 0 15px #ccd3d9;
+        }
+
+        header {
+            padding: 8px 16px;
+            color: #1668c1;
+            font-size: 26px;
+            font-weight: bold;
+            border-bottom: 2px solid #1668c1;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+        }
+
+        aside {
+            padding: 12px;
+            background: #f4f8fb;
+            border-right: 1px solid #dce5ec;
+        }
+
+        aside h4 {
+            margin: 0 0 10px;
+            color: #888;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        aside a {
+            display: block;
+            margin: 8px 0;
+            color: #1668c1;
+            font-size: 13px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        aside a:hover,
+        article h3 a:hover {
+            text-decoration: underline;
+        }
+
+        main {
+            padding: 20px 15px;
+        }
+
+        section {
+            margin-bottom: 12px;
+        }
+
+        .category-title {
+            margin: 0 0 8px;
+            padding: 5px 10px;
+            background: #1668c1;
+            color: white;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        article {
+            min-height: 112px;
+            padding: 10px 0;
+            border-bottom: 1px dashed #d7dfe6;
+            overflow: auto;
+        }
+
+        article:last-child {
+            border-bottom: 0;
+        }
+
+       article img {
+    float: right;
+    width: 130px;
+    height: 85px;
+    margin-left: 15px;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+
+@media (max-width: 650px) {
+
+    article img {
+        width: 130px;
+        height: 85px;
+        margin-left: 10px;
+    }
+}
+
+        article h3 {
+            margin: 2px 0 6px;
+            font-size: 14px;
+        }
+
+        article h3 a {
+            color: #1668c1;
+            text-decoration: none;
+        }
+
+        article p {
+            margin: 0;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .back {
+            display: block;
+            margin-top: 8px;
+            color: #1668c1;
+            font-size: 11px;
+            text-decoration: none;
+        }
+
+        @media (max-width: 650px) {
+            body {
+                padding: 8px;
+            }
+
+            .layout {
+                display: block;
+            }
+
+            aside {
+                border-right: 0;
+                border-bottom: 1px solid #dce5ec;
+            }
+
+            aside a {
+                display: inline-block;
+                margin-right: 15px;
+            }
+
+            header {
+                font-size: 21px;
+            }
+
+            article img {
+                width: 160px;
+                height: 105px;
+                object-fit: contain;
+            }
+        }
+    </style>
+</head>
+
+<body id="top">
+    <div class="container">
+        <header>Ai? Cái gì? Ở đâu? ...</header>
+
+        <div class="layout">
+            <aside>
+                <h4>Chuyên mục</h4>
+                <a href="#tinh-yeu">Tình yêu và gia đình</a>
+                <a href="#suc-khoe">Sức khỏe</a>
+                <a href="#du-lich">Du lịch</a>
+                <a href="#am-thuc">Ẩm thực</a>
+                <a href="#am-nhac">Âm nhạc</a>
+            </aside>
+
+            <main>
+                <section id="tinh-yeu">
+                    <h2 class="category-title">Tình yêu và gia đình</h2>
+
+                    <article>
+                        <img src="Anh/Bai08/traucau.jpg" alt="Trầu cau">
+                        <h3><a href="#">Trầu cau</a></h3>
+                        <p>Tình yêu là gì? Là ta yêu một người mỗi ngày trong một năm. Mỗi năm trong một đời người...</p>
+                        <a class="back" href="#top">Về đầu trang</a>
+                    </article>
+
+                    <article>
+                        <img src="Anh/Bai08/comtrua.jpg" alt="Cơm trưa gia đình">
+                        <h3><a href="#">Xây dựng hạnh phúc gia đình qua những bữa cơm hàng ngày</a></h3>
+                        <p>Nói đến hạnh phúc gia đình chúng ta thường mô tả bằng những thứ đẹp đẽ và được thể hiện qua <br> những giá trị đạo đức đáng trân trọng...</p>
+                        <a class="back" href="#top">Về đầu trang</a>
+                    </article>
+                </section>
+
+                <section id="suc-khoe">
+                    <h2 class="category-title">Sức khỏe</h2>
+
+                    <article>
+                        <img src="Anh/Bai08/Suc_khoe_03.jpg" alt="Dinh dưỡng">
+                        <h3><a href="#">10 lời khuyên trong dinh dưỡng</a></h3>
+                        <p>Cơ thể chúng ta cần nhiều chất dinh dưỡng từ nhiều nguồn lương thực khác nhau...</p>
+                        <a class="back" href="#top">Về đầu trang</a>
+                    </article>
+
+                    <article>
+                        <img src="Anh/Bai08/nosmoke.jpg" alt="Không hút thuốc lá">
+                        <h3><a href="#">Làm sao để bỏ thuốc lá?</a></h3>
+                        <p>Sức khỏe của chính bạn. Không hút thuốc lá tức là giảm thiểu đáng kể rủi ro mắc các loại bệnh ung <br> thư...</p>
+                        <a class="back" href="#top">Về đầu trang</a>
+                    </article>
+                </section>
+
+                <section id="am-thuc">
+                    <h2 class="category-title">Ẩm thực</h2>
+
+                    <article>
+                        <img src="Anh/Bai08/Am_thuc.jpg" alt="Ẩm thực">
+                        <h3><a href="#">Các món ăn dân dã</a></h3>
+                        <p>Các món ăn mới trong tuần - Chuyên mục dạy nấu ăn - Món ngon Hà Nội - Các món ăn dân dã ở miền <br> Tây.</p>
+                        <a class="back" href="#top">Về đầu trang</a>
+                    </article>
+                </section>
+
+                <section id="am-nhac">
+                    <h2 class="category-title">Âm nhạc</h2>
+
+                    <article>
+                        <img src="Anh/Bai08/nhac_thieu_nhi.jpg" alt="Nhạc thiếu nhi">
+                        <h3><a href="#">Nhạc thiếu nhi</a></h3>
+                        <p>Nắng sân trường - Mẹ yêu không nào - Ba bà đi bán lợn con.</p>
+                        <a class="back" href="#top">Về đầu trang</a>
+                    </article>
+
+                    <article>
+                        <img src="Anh/Bai08/Nhac_dan_ca.jpg" alt="Dân ca">
+                        <h3><a href="#">Dân ca</a></h3>
+                        <p>Bèo dạt mây trôi - Muối thương - Lý cây bông.</p>
+                        <a class="back" href="#top">Về đầu trang</a>
+                    </article>
+                </section>
+            </main>
+        </div>
+    </div>
+</body>
+</html>
