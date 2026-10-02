@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Special For You</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #1c2226;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: min(1100px, 95%);
+      text-align: center;
+    }
+
+    .photo-box {
+      width: 700px;
+      max-width: 100%;
+      margin: 0 auto 36px;
+      padding: 28px;
+      border-radius: 24px;
+      background: #232b30;
+    }
+
+    #flower {
+      width: 300px;
+      max-width: 100%;
+      display: block;
+      margin: auto;
+      border-radius: 12px;
+      transition: 0.4s ease;
+    }
+
+    h1 {
+      margin: 18px 0 0;
+      color: #f2ca4c;
+      font-size: 44px;
+      font-style: italic;
+      font-weight: normal;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    button {
+      padding: 13px 25px;
+      border: 1px solid #46535b;
+      border-radius: 11px;
+      background: #232b30;
+      color: #ddd;
+      font-size: 20px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover,
+    button.active {
+      background: #0d6efd;
+      color: white;
+    }
+
+    .gray {
+      filter: grayscale(1);
+    }
+
+    .xray {
+      filter: grayscale(1) invert(1);
+    }
+
+    .invert {
+      filter: invert(1);
+    }
+
+    .flip-h {
+      transform: scaleX(-1);
+    }
+
+    .flip-v {
+      transform: scaleY(-1);
+    }
+
+    .glow {
+      filter: drop-shadow(0 0 18px #ffe56b);
+    }
+
+    .shadow {
+      filter: drop-shadow(12px 12px 8px #000);
+    }
+
+    .bold-shadow {
+      filter: drop-shadow(15px 15px 3px #000);
+    }
+
+    .blur {
+      filter: blur(3px);
+    }
+
+    .wave {
+      filter: url(#wave-effect);
+    }
+
+    .mask {
+      mask-image: radial-gradient(circle, black 45%, transparent 75%);
+      -webkit-mask-image: radial-gradient(circle, black 45%, transparent 75%);
+    }
+
+    .alpha {
+      opacity: 0.4;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 32px;
+      }
+
+      button {
+        font-size: 16px;
+        padding: 10px 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="container">
+    <section class="photo-box">
+      <img id="flower" src="Anh/Bai20/hoahong.gif" alt="Hoa hồng">
+      <h1>Special For You</h1>
+    </section>
+
+    <nav class="buttons">
+      <button class="active" data-effect="gray">Gray</button>
+      <button data-effect="xray">Xray</button>
+      <button data-effect="invert">Invert</button>
+      <button data-effect="flip-h">FlipH</button>
+      <button data-effect="flip-v">FlipV</button>
+      <button data-effect="glow">Glow</button>
+      <button data-effect="shadow">Shadow</button>
+      <button data-effect="bold-shadow">Bold Shadow</button>
+      <button data-effect="drop-shadow">DropShadow</button>
+      <button data-effect="blur">Blur</button>
+      <button data-effect="wave">Wave</button>
+      <button data-effect="mask">Mask</button>
+      <button data-effect="alpha">Alpha</button>
+    </nav>
+  </main>
+
+  <svg width="0" height="0" aria-hidden="true">
+    <filter id="wave-effect">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency="0.02"
+        numOctaves="2"
+        seed="2"
+        result="noise">
+      </feTurbulence>
+      <feDisplacementMap
+        in="SourceGraphic"
+        in2="noise"
+        scale="18"
+        xChannelSelector="R"
+        yChannelSelector="G">
+      </feDisplacementMap>
+    </filter>
+  </svg>
+
+  <script>
+    const image = document.getElementById("flower");
+    const buttons = document.querySelectorAll("button");
+
+    const effects = [
+      "gray", "xray", "invert", "flip-h", "flip-v",
+      "glow", "shadow", "bold-shadow", "drop-shadow",
+      "blur", "wave", "mask", "alpha"
+    ];
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        const effect = button.dataset.effect;
+
+        image.classList.remove(...effects);
+        image.classList.add(effect);
+
+        buttons.forEach(item => item.classList.remove("active"));
+        button.classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
