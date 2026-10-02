@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư viện ảnh — Hiệu ứng Hover</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 40px 20px;
+            background: #f5f8fb;
+            color: #111827;
+            font-family: Arial, sans-serif;
+        }
+
+        .gallery {
+            width: min(1240px, 100%);
+            margin: 0 auto;
+        }
+
+        .heading {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .heading h1 {
+            margin: 0 0 8px;
+            font-size: 34px;
+        }
+
+        .heading p {
+            margin: 0;
+            color: #64748b;
+            font-size: 18px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .photo {
+            position: relative;
+            height: 228px;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 22px rgba(15, 23, 42, 0.15);
+            isolation: isolate;
+        }
+
+        .photo img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .photo::after {
+            position: absolute;
+            z-index: 1;
+            inset: 0;
+            background: linear-gradient(to top,
+                    rgba(0, 0, 0, 0.72),
+                    transparent 55%);
+            content: "";
+        }
+
+        .photo figcaption {
+            position: absolute;
+            z-index: 2;
+            right: 18px;
+            bottom: 15px;
+            left: 18px;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 0 1px 3px #000;
+        }
+
+        .photo:hover img {
+            transform: scale(1.12);
+        }
+
+        @media (max-width: 800px) {
+            .grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 28px 14px;
+            }
+
+            .heading h1 {
+                font-size: 27px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .photo {
+                height: 230px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="gallery">
+        <header class="heading">
+            <h1>Thư viện ảnh — Hiệu ứng Hover</h1>
+            <p>Rê chuột lên ảnh để thấy hiệu ứng phóng to (zoom) và lớp phủ chú thích.</p>
+        </header>
+
+        <section class="grid" aria-label="Thư viện danh thắng Việt Nam">
+            <figure class="photo">
+                <img src="Anh/Bai23/1-vinh-ha-long.jpg" alt="Bãi biển và hàng dừa">
+                <figcaption>Vịnh Hạ Long</figcaption>
+            </figure>
+
+            <figure class="photo">
+                <img src="Anh/Bai23/2-son-doong.jpg" alt="Cảnh bên trong hang Sơn Đoòng">
+                <figcaption>Hang Sơn Đoòng</figcaption>
+            </figure>
+
+            <figure class="photo">
+                <img src="Anh/Bai23/3-thac-ban-gioc.jpg" alt="Thác nước giữa núi rừng">
+                <figcaption>Thác Bản Giốc</figcaption>
+            </figure>
+
+            <figure class="photo">
+                <img src="Anh/Bai23/4-fansipan.jpg" alt="Núi Fansipan trên biển mây">
+                <figcaption>Fansipan</figcaption>
+            </figure>
+
+            <figure class="photo">
+                <img src="Anh/Bai23/5-mekong.jpg" alt="Chợ nổi trên sông">
+                <figcaption>Đồng bằng sông Cửu Long</figcaption>
+            </figure>
+
+            <figure class="photo">
+                <img src="Anh/Bai23/6-phong-nha.jpg" alt="Thạch nhũ trong động Phong Nha">
+                <figcaption>Động Phong Nha</figcaption>
+            </figure>
+        </section>
+    </main>
+</body>
+
+</html>
