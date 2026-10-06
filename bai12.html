@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>In lịch</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 40px 20px;
+            display: grid;
+            place-items: center;
+            background: url("Anh/Bai12/Nen.gif") repeat;
+            color: #212529;
+            font-family: Arial, sans-serif;
+        }
+
+        .calendar-app {
+            width: min(100%, 1000px);
+            padding: 46px;
+            border-radius: 20px;
+            background: #fff;
+            box-shadow: 0 18px 38px rgba(0, 0, 0, 0.16);
+        }
+
+        .calendar-display {
+            min-height: 315px;
+            padding: 28px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ddd;
+            border-radius: 18px;
+            text-align: center;
+        }
+
+        .calendar-year {
+            color: #c62828;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .calendar-month,
+        .calendar-weekday {
+            color: #1565c0;
+            font-size: 38px;
+            font-weight: 700;
+        }
+
+        .calendar-day {
+            margin: 18px 0 0;
+            color: #c62828;
+            font-size: 112px;
+            font-weight: 700;
+            line-height: 1.05;
+        }
+
+        .calendar-weekday {
+            margin-top: 2px;
+        }
+
+        .greeting {
+            min-height: 82px;
+            margin: 0;
+            display: grid;
+            place-items: center;
+            color: #c62828;
+            font-size: 36px;
+            font-style: italic;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .date-form {
+            padding: 24px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            gap: 20px;
+            border: 3px solid #1565c0;
+            border-radius: 18px;
+        }
+
+        .field {
+            width: min(100%, 170px);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: center;
+        }
+
+        .field label {
+            font-size: 26px;
+        }
+
+        .field input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 9px;
+            font: inherit;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .field input:focus {
+            border-color: #1565c0;
+            outline: 3px solid rgba(21, 101, 192, 0.18);
+        }
+
+        .print-button {
+            min-height: 82px;
+            padding: 12px 28px;
+            border: 0;
+            border-radius: 9px;
+            background: #546e7a;
+            color: #fff;
+            font: inherit;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .print-button:hover {
+            background: #455a64;
+        }
+
+        .form-error {
+            min-height: 24px;
+            margin: 10px 0 0;
+            color: #c62828;
+            text-align: center;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .calendar-app {
+                padding: 22px 16px;
+                border-radius: 14px;
+            }
+
+            .calendar-display {
+                min-height: 260px;
+            }
+
+            .calendar-month,
+            .calendar-weekday {
+                font-size: 30px;
+            }
+
+            .calendar-day {
+                font-size: 88px;
+            }
+
+            .greeting {
+                min-height: 72px;
+                font-size: 28px;
+            }
+
+            .date-form {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 16px;
+                padding: 18px 12px;
+            }
+
+            .field {
+                width: calc(50% - 16px);
+            }
+
+            .field label {
+                font-size: 20px;
+            }
+
+            .field input {
+                font-size: 20px;
+            }
+
+            .print-button {
+                min-height: 54px;
+                padding: 10px 24px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .field {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="calendar-app">
+        <section class="calendar-display" aria-label="Thông tin ngày đã chọn">
+            <div id="calendar-year" class="calendar-year"></div>
+            <div id="calendar-month" class="calendar-month"></div>
+            <p id="calendar-day" class="calendar-day"></p>
+            <div id="calendar-weekday" class="calendar-weekday"></div>
+        </section>
+
+        <p id="greeting" class="greeting" aria-live="polite"></p>
+
+        <form id="date-form" class="date-form" novalidate>
+            <div class="field">
+                <label for="day">Ngày</label>
+                <input id="day" name="day" type="number" min="1" max="31" step="1" required>
+            </div>
+            <div class="field">
+                <label for="month">Tháng</label>
+                <input id="month" name="month" type="number" min="1" max="12" step="1" required>
+            </div>
+            <div class="field">
+                <label for="year">Năm</label>
+                <input id="year" name="year" type="number" min="1" max="9999" step="1" required>
+            </div>
+            <button class="print-button" type="submit">In lịch</button>
+        </form>
+        <p id="form-error" class="form-error" role="alert"></p>
+    </main>
+
+    <script>
+        const dateForm = document.getElementById("date-form");
+        const dayInput = document.getElementById("day");
+        const monthInput = document.getElementById("month");
+        const yearInput = document.getElementById("year");
+        const formError = document.getElementById("form-error");
+        const weekdays = [
+            "Chủ nhật",
+            "Thứ hai",
+            "Thứ ba",
+            "Thứ tư",
+            "Thứ năm",
+            "Thứ sáu",
+            "Thứ bảy"
+        ];
+
+        function showCalendar(date) {
+            document.getElementById("calendar-year").textContent = date.getFullYear();
+            document.getElementById("calendar-month").textContent = `Tháng ${date.getMonth() + 1}`;
+            document.getElementById("calendar-day").textContent = date.getDate();
+            document.getElementById("calendar-weekday").textContent = weekdays[date.getDay()];
+
+            const hour = new Date().getHours();
+            let greeting;
+            if (hour < 12) {
+                greeting = "Chào buổi sáng!";
+            } else if (hour < 18) {
+                greeting = "Chào buổi chiều!";
+            } else {
+                greeting = "Chào buổi tối!";
+            }
+            document.getElementById("greeting").textContent = greeting;
+        }
+
+        function setInputs(date) {
+            dayInput.value = date.getDate();
+            monthInput.value = date.getMonth() + 1;
+            yearInput.value = date.getFullYear();
+        }
+
+        dateForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            formError.textContent = "";
+
+            const day = dayInput.valueAsNumber;
+            const month = monthInput.valueAsNumber;
+            const year = yearInput.valueAsNumber;
+
+            if (!Number.isInteger(day) || !Number.isInteger(month) || !Number.isInteger(year)
+                || month < 1 || month > 12 || year < 1 || year > 9999) {
+                formError.textContent = "Vui lòng nhập ngày, tháng và năm hợp lệ.";
+                return;
+            }
+
+            const date = new Date(year, month - 1, day);
+            date.setFullYear(year);
+
+            if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+                formError.textContent = "Ngày không tồn tại trong tháng đã chọn.";
+                return;
+            }
+
+            showCalendar(date);
+        });
+
+        const today = new Date();
+        setInputs(today);
+        showCalendar(today);
+    </script>
+</body>
+
+</html>
