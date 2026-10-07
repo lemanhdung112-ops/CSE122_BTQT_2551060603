@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Đồng hồ số</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 36px 20px;
+            display: grid;
+            place-items: center;
+            background: #f1f1f1;
+            font-family: Arial, sans-serif;
+        }
+
+        main {
+            width: min(100%, 1100px);
+        }
+
+        .clock {
+            min-height: 300px;
+            padding: 42px 24px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: clamp(8px, 2.4vw, 28px);
+            border-radius: 32px;
+            background: #000;
+        }
+
+        .clock img {
+            display: block;
+            height: 52px;
+            width: auto;
+        }
+
+        .greeting {
+            margin: 70px 6% 0;
+            padding: 25px 16px;
+            border-radius: 24px;
+            background: #fff;
+            color: #c62828;
+            font-family: Arial, sans-serif;
+            font-size: clamp(36px, 8vw, 78px);
+            text-align: center;
+        }
+
+        @media (max-width: 540px) {
+            body {
+                padding: 24px 12px;
+            }
+
+            .clock {
+                min-height: 180px;
+                padding: 38px 10px;
+                gap: clamp(4px, 1.8vw, 10px);
+                border-radius: 22px;
+            }
+
+            .clock img {
+                height: 40px;
+            }
+
+            .greeting {
+                margin: 42px 2% 0;
+                padding: 20px 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <time id="clock" class="clock" aria-label="Đồng hồ đang khởi động">
+            <img id="hour-tens" src="Anh/Bai13/00.gif" alt="">
+            <img id="hour-ones" src="Anh/Bai13/00.gif" alt="">
+            <img src="Anh/Bai13/haicham.gif" alt="">
+            <img id="minute-tens" src="Anh/Bai13/00.gif" alt="">
+            <img id="minute-ones" src="Anh/Bai13/00.gif" alt="">
+            <img src="Anh/Bai13/haicham.gif" alt="">
+            <img id="second-tens" src="Anh/Bai13/00.gif" alt="">
+            <img id="second-ones" src="Anh/Bai13/00.gif" alt="">
+        </time>
+        <p id="greeting" class="greeting" aria-live="polite"></p>
+    </main>
+
+    <script>
+        const clock = document.getElementById("clock");
+        const greeting = document.getElementById("greeting");
+        const digitImages = {
+            hourTens: document.getElementById("hour-tens"),
+            hourOnes: document.getElementById("hour-ones"),
+            minuteTens: document.getElementById("minute-tens"),
+            minuteOnes: document.getElementById("minute-ones"),
+            secondTens: document.getElementById("second-tens"),
+            secondOnes: document.getElementById("second-ones")
+        };
+
+        function showNumber(tensImage, onesImage, value) {
+            const digits = String(value).padStart(2, "0");
+            tensImage.src = `Anh/Bai13/0${digits[0]}.gif`;
+            onesImage.src = `Anh/Bai13/0${digits[1]}.gif`;
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const timeText = [hours, minutes, seconds]
+                .map((value) => String(value).padStart(2, "0"))
+                .join(":");
+
+            showNumber(digitImages.hourTens, digitImages.hourOnes, hours);
+            showNumber(digitImages.minuteTens, digitImages.minuteOnes, minutes);
+            showNumber(digitImages.secondTens, digitImages.secondOnes, seconds);
+
+            clock.dateTime = timeText;
+            clock.setAttribute("aria-label", `Bây giờ là ${timeText}`);
+
+            if (hours >= 5 && hours < 12) {
+                greeting.textContent = "Chào buổi sáng";
+            } else if (hours >= 12 && hours < 18) {
+                greeting.textContent = "Chào buổi chiều";
+            } else {
+                greeting.textContent = "Chào buổi tối";
+            }
+        }
+
+        updateClock();
+        window.setInterval(updateClock, 1000);
+    </script>
+</body>
+
+</html>
