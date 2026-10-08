@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Máy tính đơn giản</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 24px 16px;
+            display: grid;
+            place-items: center;
+            background: #f3f4f6;
+            color: #e5e7eb;
+            font-family: Arial, sans-serif;
+        }
+
+        .calculator {
+            width: min(100%, 480px);
+            padding: 24px;
+            border-radius: 16px;
+            background: #111827;
+            box-shadow: 0 16px 40px rgba(17, 24, 39, 0.25);
+        }
+
+        .screen {
+            min-height: 130px;
+            margin-bottom: 18px;
+            padding: 16px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #022c22;
+            color: #4ade80;
+            text-align: right;
+        }
+
+        .expression {
+            width: 100%;
+            min-height: 28px;
+            overflow-wrap: anywhere;
+            color: #22a862;
+            font-size: 20px;
+        }
+
+        .result {
+            width: 100%;
+            min-height: 54px;
+            overflow-wrap: anywhere;
+            font-size: 42px;
+            font-weight: 700;
+        }
+
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            grid-template-rows: repeat(5, minmax(64px, auto));
+            gap: 12px;
+        }
+
+        .key {
+            min-width: 0;
+            border: 0;
+            border-radius: 12px;
+            background: #25313f;
+            color: #e5e7eb;
+            font: inherit;
+            font-size: 27px;
+            cursor: pointer;
+            transition: filter 120ms ease, transform 120ms ease;
+        }
+
+        .key:hover {
+            filter: brightness(1.15);
+        }
+
+        .key:active {
+            transform: scale(0.97);
+        }
+
+        .key:focus-visible {
+            outline: 3px solid #93c5fd;
+            outline-offset: 2px;
+        }
+
+        .key-operator {
+            background: #0d6efd;
+            color: #fff;
+        }
+
+        .key-clear {
+            background: #dc2626;
+            color: #fff;
+        }
+
+        .key-equals {
+            background: #16a34a;
+            color: #fff;
+        }
+
+        .key-zero {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 420px) {
+            .calculator {
+                padding: 16px;
+            }
+
+            .keypad {
+                grid-template-rows: repeat(5, minmax(58px, auto));
+                gap: 9px;
+            }
+
+            .key {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="calculator" aria-label="Máy tính">
+        <section class="screen" aria-label="Màn hình máy tính" aria-live="polite">
+            <div id="expression" class="expression"></div>
+            <div id="result" class="result">0</div>
+        </section>
+
+        <section id="keypad" class="keypad" aria-label="Bàn phím máy tính">
+            <button class="key key-clear" type="button" data-action="clear" aria-label="Xóa tất cả">C</button>
+            <button class="key key-operator" type="button" data-action="parentheses" aria-label="Mở hoặc đóng ngoặc">()</button>
+            <button class="key key-operator" type="button" data-value="%">%</button>
+            <button class="key key-operator" type="button" data-value="/" aria-label="Chia">÷</button>
+
+            <button class="key" type="button" data-value="7">7</button>
+            <button class="key" type="button" data-value="8">8</button>
+            <button class="key" type="button" data-value="9">9</button>
+            <button class="key key-operator" type="button" data-value="*" aria-label="Nhân">×</button>
+
+            <button class="key" type="button" data-value="4">4</button>
+            <button class="key" type="button" data-value="5">5</button>
+            <button class="key" type="button" data-value="6">6</button>
+            <button class="key key-operator" type="button" data-value="-">−</button>
+
+            <button class="key" type="button" data-value="1">1</button>
+            <button class="key" type="button" data-value="2">2</button>
+            <button class="key" type="button" data-value="3">3</button>
+            <button class="key key-operator" type="button" data-value="+">+</button>
+
+            <button class="key key-zero" type="button" data-value="0">0</button>
+            <button class="key" type="button" data-value=".">.</button>
+            <button class="key key-equals" type="button" data-action="equals" aria-label="Tính kết quả">=</button>
+        </section>
+    </main>
+
+    <script>
+        const keypad = document.getElementById("keypad");
+        const expressionDisplay = document.getElementById("expression");
+        const resultDisplay = document.getElementById("result");
+        let expression = "";
+        let hasResult = false;
+
+        function formatResult(value) {
+            if (!Number.isFinite(value)) {
+                throw new Error("Kết quả không hợp lệ");
+            }
+            if (Object.is(value, -0)) {
+                value = 0;
+            }
+            return String(Number(value.toPrecision(12)));
+        }
+
+        function evaluateExpression(source) {
+            let index = 0;
+
+            function skipSpaces() {
+                while (source[index] === " ") {
+                    index++;
+                }
+            }
+
+            function parsePrimary() {
+                skipSpaces();
+                if (source[index] === "(") {
+                    index++;
+                    const value = parseSum();
+                    skipSpaces();
+                    if (source[index] !== ")") {
+                        throw new Error("Thiếu dấu đóng ngoặc");
+                    }
+                    index++;
+                    return value;
+                }
+
+                const start = index;
+                while (/[0-9.]/.test(source[index] || "")) {
+                    index++;
+                }
+                const numberText = source.slice(start, index);
+                if (!/^(?:\d+\.?\d*|\.\d+)$/.test(numberText)) {
+                    throw new Error("Biểu thức không hợp lệ");
+                }
+                return Number(numberText);
+            }
+
+            function parseUnary() {
+                skipSpaces();
+                if (source[index] === "+") {
+                    index++;
+                    return parseUnary();
+                }
+                if (source[index] === "-") {
+                    index++;
+                    return -parseUnary();
+                }
+
+                let value = parsePrimary();
+                skipSpaces();
+                while (source[index] === "%") {
+                    value /= 100;
+                    index++;
+                    skipSpaces();
+                }
+                return value;
+            }
+
+            function parseProduct() {
+                let value = parseUnary();
+                skipSpaces();
+                while (source[index] === "*" || source[index] === "/") {
+                    const operator = source[index++];
+                    const right = parseUnary();
+                    if (operator === "/" && right === 0) {
+                        throw new Error("Không thể chia cho 0");
+                    }
+                    value = operator === "*" ? value * right : value / right;
+                    skipSpaces();
+                }
+                return value;
+            }
+
+            function parseSum() {
+                let value = parseProduct();
+                skipSpaces();
+                while (source[index] === "+" || source[index] === "-") {
+                    const operator = source[index++];
+                    const right = parseProduct();
+                    value = operator === "+" ? value + right : value - right;
+                    skipSpaces();
+                }
+                return value;
+            }
+
+            const value = parseSum();
+            skipSpaces();
+            if (index !== source.length) {
+                throw new Error("Biểu thức không hợp lệ");
+            }
+            return value;
+        }
+
+        function renderExpression() {
+            expressionDisplay.textContent = expression
+                .replaceAll("*", " × ")
+                .replaceAll("/", " ÷ ")
+                .replaceAll("+", " + ")
+                .replaceAll("-", " − ")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
+
+        function appendValue(value) {
+            const isNumberOrDecimal = /^[0-9.]$/.test(value);
+            if (hasResult && isNumberOrDecimal) {
+                expression = "";
+            } else if (hasResult && /^[+\-*/%]$/.test(value)) {
+                expression = resultDisplay.textContent;
+            }
+            hasResult = false;
+            expression += value;
+            renderExpression();
+            resultDisplay.textContent = "0";
+        }
+
+        function insertParenthesis() {
+            if (hasResult) {
+                expression = "";
+                hasResult = false;
+            }
+            const openCount = (expression.match(/\(/g) || []).length;
+            const closeCount = (expression.match(/\)/g) || []).length;
+            const lastCharacter = expression.slice(-1);
+            const canClose = openCount > closeCount && /[0-9)%]/.test(lastCharacter);
+            expression += canClose ? ")" : "(";
+            renderExpression();
+            resultDisplay.textContent = "0";
+        }
+
+        function calculate() {
+            if (!expression) {
+                return;
+            }
+            try {
+                resultDisplay.textContent = formatResult(evaluateExpression(expression));
+                hasResult = true;
+            } catch (error) {
+                resultDisplay.textContent = "Lỗi";
+                hasResult = true;
+            }
+        }
+
+        function handleKey(value, action) {
+            if (action === "clear") {
+                expression = "";
+                hasResult = false;
+                expressionDisplay.textContent = "";
+                resultDisplay.textContent = "0";
+            } else if (action === "equals") {
+                calculate();
+            } else if (action === "parentheses") {
+                insertParenthesis();
+            } else if (value) {
+                appendValue(value);
+            }
+        }
+
+        keypad.addEventListener("click", (event) => {
+            const button = event.target.closest("button");
+            if (!button) {
+                return;
+            }
+            handleKey(button.dataset.value, button.dataset.action);
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (/^[0-9.+\-*/%()]$/.test(event.key)) {
+                event.preventDefault();
+                if (event.key === "(" || event.key === ")") {
+                    if (hasResult) {
+                        expression = "";
+                        hasResult = false;
+                    }
+                    expression += event.key;
+                    renderExpression();
+                    resultDisplay.textContent = "0";
+                } else {
+                    appendValue(event.key);
+                }
+            } else if (event.key === "Enter" || event.key === "=") {
+                event.preventDefault();
+                calculate();
+            } else if (event.key === "Escape") {
+                handleKey("", "clear");
+            } else if (event.key === "Backspace" && !hasResult) {
+                expression = expression.slice(0, -1);
+                renderExpression();
+            }
+        });
+    </script>
+</body>
+
+</html>
