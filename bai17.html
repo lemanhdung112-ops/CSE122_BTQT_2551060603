@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Đăng ký tài khoản</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 30px 16px;
+            display: grid;
+            place-items: center;
+            background: #fff7ed;
+            color: #374151;
+            font-family: Arial, sans-serif;
+        }
+
+        .registration-form {
+            width: min(100%, 780px);
+            padding: 32px 35px;
+            border: 1px solid #fed7aa;
+            border-radius: 16px;
+            background: #fff;
+            box-shadow: 0 16px 32px rgba(124, 45, 18, 0.1);
+        }
+
+        .form-heading {
+            margin-bottom: 22px;
+        }
+
+        .form-heading h1 {
+            margin: 0 0 5px;
+            color: #c2410c;
+            font-size: 28px;
+        }
+
+        .form-heading p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 17px;
+            line-height: 1.5;
+        }
+
+        .field {
+            margin-bottom: 17px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 7px;
+            color: #374151;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .field input {
+            width: 100%;
+            min-height: 52px;
+            padding: 12px 16px;
+            border: 2px solid #d1d5db;
+            border-radius: 12px;
+            background: #fff;
+            color: #111827;
+            font: inherit;
+            font-size: 16px;
+        }
+
+        .field input:focus {
+            outline: 3px solid rgba(194, 65, 12, 0.15);
+            outline-offset: 1px;
+        }
+
+        .field input.invalid {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+
+        .field input.valid {
+            border-color: #16a34a;
+        }
+
+        .field-message {
+            min-height: 22px;
+            margin: 6px 0 0;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .field-message.error {
+            color: #dc2626;
+        }
+
+        .field-message.success {
+            color: #16a34a;
+        }
+
+        .submit-button {
+            width: 100%;
+            min-height: 52px;
+            margin-top: 5px;
+            border: 0;
+            border-radius: 12px;
+            background: #c2410c;
+            color: #fff;
+            font: inherit;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background: #9a3412;
+        }
+
+        .submit-button:focus-visible {
+            outline: 3px solid #fdba74;
+            outline-offset: 3px;
+        }
+
+        .form-status {
+            margin: 14px 0 0;
+            color: #16a34a;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .form-status:empty {
+            display: none;
+        }
+
+        @media (max-width: 520px) {
+            body {
+                padding: 18px 12px;
+            }
+
+            .registration-form {
+                padding: 24px 20px;
+            }
+
+            .form-heading h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <form id="registration-form" class="registration-form" novalidate>
+            <header class="form-heading">
+                <h1>Đăng ký tài khoản</h1>
+                <p>Dữ liệu được kiểm tra bằng JavaScript trước khi gửi.</p>
+            </header>
+
+            <div class="field">
+                <label for="full-name">Họ và tên</label>
+                <input id="full-name" name="fullName" type="text" autocomplete="name"
+                    aria-describedby="full-name-message">
+                <p id="full-name-message" class="field-message" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email"
+                    aria-describedby="email-message">
+                <p id="email-message" class="field-message" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+                <label for="password">Mật khẩu</label>
+                <input id="password" name="password" type="password" autocomplete="new-password"
+                    aria-describedby="password-message">
+                <p id="password-message" class="field-message" aria-live="polite"></p>
+            </div>
+
+            <div class="field">
+                <label for="confirm-password">Xác nhận mật khẩu</label>
+                <input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password"
+                    aria-describedby="confirm-password-message">
+                <p id="confirm-password-message" class="field-message" aria-live="polite"></p>
+            </div>
+
+            <button class="submit-button" type="submit">Đăng ký</button>
+            <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+        </form>
+    </main>
+
+    <script>
+        const registrationForm = document.getElementById("registration-form");
+        const fields = {
+            fullName: {
+                input: document.getElementById("full-name"),
+                message: document.getElementById("full-name-message")
+            },
+            email: {
+                input: document.getElementById("email"),
+                message: document.getElementById("email-message")
+            },
+            password: {
+                input: document.getElementById("password"),
+                message: document.getElementById("password-message")
+            },
+            confirmPassword: {
+                input: document.getElementById("confirm-password"),
+                message: document.getElementById("confirm-password-message")
+            }
+        };
+        const formStatus = document.getElementById("form-status");
+        let hasSubmitted = false;
+
+        function validateField(fieldName) {
+            const { input, message } = fields[fieldName];
+            const value = input.value.trim();
+            let error = "";
+
+            if (fieldName === "fullName" && !value) {
+                error = "Vui lòng nhập họ và tên.";
+            } else if (fieldName === "email") {
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+                if (!value) {
+                    error = "Vui lòng nhập email.";
+                } else if (!emailPattern.test(value)) {
+                    error = "Email không hợp lệ (thiếu tên miền)";
+                }
+            } else if (fieldName === "password") {
+                if (input.value.length < 6) {
+                    error = "Mật khẩu phải có ít nhất 6 ký tự";
+                }
+            } else if (fieldName === "confirmPassword") {
+                if (!input.value) {
+                    error = "Vui lòng xác nhận mật khẩu";
+                } else if (input.value !== fields.password.input.value) {
+                    error = "Mật khẩu xác nhận không khớp";
+                }
+            }
+
+            input.classList.toggle("invalid", Boolean(error));
+            input.classList.toggle("valid", !error && value.length > 0);
+            input.setAttribute("aria-invalid", String(Boolean(error)));
+            message.classList.toggle("error", Boolean(error));
+            message.classList.toggle("success", !error && value.length > 0);
+            message.textContent = error || (value ? "✓ Hợp lệ" : "");
+
+            return !error;
+        }
+
+        function validateForm() {
+            const results = Object.keys(fields).map(validateField);
+            return results.every(Boolean);
+        }
+
+        Object.entries(fields).forEach(([fieldName, field]) => {
+            field.input.addEventListener("input", () => {
+                formStatus.textContent = "";
+                if (hasSubmitted) {
+                    if (fieldName === "password") {
+                        validateField("confirmPassword");
+                    }
+                    validateField(fieldName);
+                }
+            });
+        });
+
+        registrationForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+            hasSubmitted = true;
+            formStatus.textContent = "";
+
+            if (!validateForm()) {
+                const firstInvalidField = registrationForm.querySelector(".invalid");
+                if (firstInvalidField) {
+                    firstInvalidField.focus();
+                }
+                return;
+            }
+
+            formStatus.textContent = "✓ Đăng ký thành công!";
+        });
+    </script>
+</body>
+
+</html>
