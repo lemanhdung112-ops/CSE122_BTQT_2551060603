@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chế độ Sáng / Tối</title>
+
+  <style>
+    :root {
+      --nen: #f8fafc;
+      --chu: #1e293b;
+      --the: #ffffff;
+      --vien: #e2e8f0;
+      --nhan: #2563eb;
+      --nut-nen: #cbd5e1;
+      --nut-tron: #ffffff;
+      --phu: #64748b;
+      --bong: rgba(15, 23, 42, 0.06);
+    }
+
+    .toi {
+      --nen: #0f172a;
+      --chu: #e2e8f0;
+      --the: #1e293b;
+      --vien: #334155;
+      --nhan: #60a5fa;
+      --nut-nen: #60a5fa;
+      --nut-tron: #ffffff;
+      --phu: #94a3b8;
+      --bong: rgba(0, 0, 0, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 22px;
+      background-color: var(--nen);
+      color: var(--chu);
+      font-family: Arial, sans-serif;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+    }
+
+    .switch {
+      position: relative;
+      width: 90px;
+      height: 46px;
+      flex: 0 0 auto;
+      padding: 0;
+      border: 0;
+      border-radius: 30px;
+      background-color: var(--nut-nen);
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .switch-knob {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--nut-tron);
+      box-shadow: 0 2px 5px var(--bong);
+      transition: transform 0.3s ease;
+    }
+
+    .toi .switch-knob {
+      transform: translateX(44px);
+    }
+
+    .switch:focus-visible {
+      outline: 3px solid var(--nhan);
+      outline-offset: 4px;
+    }
+
+    .cards {
+      display: grid;
+      gap: 18px;
+    }
+
+    .card {
+      padding: 24px 28px;
+      border: 1px solid var(--vien);
+      border-radius: 14px;
+      background-color: var(--the);
+      transition:
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      color: var(--nhan);
+      font-size: 22px;
+      transition: color 0.3s ease;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    code {
+      font-family: Consolas, monospace;
+    }
+
+    .status {
+      margin: 22px 0 0;
+      color: var(--phu);
+      transition: color 0.3s ease;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 18px;
+      }
+
+      h1 {
+        font-size: 26px;
+      }
+
+      .card {
+        padding: 20px;
+      }
+
+      .card p {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body class="toi">
+  <main class="page">
+    <header class="topbar">
+      <h1>Chế độ Tối / Sáng</h1>
+      <button
+        class="switch"
+        id="theme-toggle"
+        type="button"
+        aria-label="Chuyển sang chế độ sáng"
+        aria-pressed="true">
+        <span class="switch-knob"></span>
+      </button>
+    </header>
+
+    <section class="cards" aria-label="Thông tin về giao diện">
+      <article class="card">
+        <h2>Biến CSS (CSS Variables)</h2>
+        <p>
+          Toàn bộ màu sắc được khai báo trong <code>:root</code> và ghi đè
+          bằng class <code>.toi</code>.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Chuyển đổi bằng JavaScript</h2>
+        <p>
+          Nút gạt thêm hoặc bỏ class <code>.toi</code> trên
+          <code>&lt;body&gt;</code> — mọi thành phần tự đổi màu.
+        </p>
+      </article>
+
+      <article class="card">
+        <h2>Chuyển màu mượt</h2>
+        <p>
+          Dùng <code>transition</code> để màu nền và chữ chuyển dần, không bị giật.
+        </p>
+      </article>
+    </section>
+
+    <p class="status" id="theme-status" aria-live="polite">
+      Đây là giao diện ở chế độ TỐI (đang bật).
+    </p>
+  </main>
+
+  <script>
+    const toggle = document.getElementById("theme-toggle");
+    const status = document.getElementById("theme-status");
+
+    toggle.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("toi");
+
+      toggle.setAttribute("aria-pressed", isDark);
+      toggle.setAttribute(
+        "aria-label",
+        isDark ? "Chuyển sang chế độ sáng" : "Chuyển sang chế độ tối"
+      );
+
+      status.textContent = isDark
+        ? "Đây là giao diện ở chế độ TỐI (đang bật)."
+        : "Đây là giao diện ở chế độ SÁNG (đang bật).";
+    });
+  </script>
+</body>
+</html>

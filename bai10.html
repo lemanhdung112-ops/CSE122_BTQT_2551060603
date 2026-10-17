@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Liên hệ với chúng tôi</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 35px 17px;
+      font-family: Arial, sans-serif;
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .contact-form {
+      max-width: 916px;
+      margin: auto;
+      background: #ffffff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    .header {
+      padding: 27px 36px;
+      background: #0f766e;
+      color: #ffffff;
+    }
+
+    .header h1 {
+      margin: 0 0 6px;
+      font-size: 32px;
+    }
+
+    .header p {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    form {
+      padding: 34px 36px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 8px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font: inherit;
+      font-size: 18px;
+      outline: none;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #0f766e;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .full-width {
+      margin-top: 20px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 27px 0;
+    }
+
+    .checkbox-group input {
+      width: 19px;
+      height: 19px;
+      accent-color: #0f766e;
+    }
+
+    .checkbox-group label {
+      margin: 0;
+      font-weight: normal;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 14px;
+    }
+
+    button {
+      padding: 14px 30px;
+      border: none;
+      border-radius: 9px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .submit-button {
+      background: #0f766e;
+      color: #ffffff;
+    }
+
+    .reset-button {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    @media (max-width: 650px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header h1 {
+        font-size: 26px;
+      }
+
+      .header p {
+        font-size: 16px;
+      }
+
+      form {
+        padding: 25px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="contact-form">
+    <div class="header">
+      <h1>Liên hệ với chúng tôi</h1>
+      <p>Vui lòng điền thông tin bên dưới, chúng tôi sẽ phản hồi trong 24 giờ.</p>
+    </div>
+
+    <form>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="fullname">Họ và tên</label>
+          <input type="text" id="fullname" name="fullname"
+                 placeholder="Nhập họ và tên" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email"
+                 placeholder="example@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Số điện thoại</label>
+          <input type="tel" id="phone" name="phone"
+                 placeholder="0987 654 321" required>
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Chủ đề</label>
+          <select id="subject" name="subject">
+            <option value="course">Hỏi về khóa học</option>
+            <option value="schedule">Hỏi về lịch học</option>
+            <option value="other">Vấn đề khác</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group full-width">
+        <label for="message">Nội dung</label>
+        <textarea id="message" name="message" rows="4"
+                  placeholder="Nhập nội dung cần liên hệ..." required></textarea>
+      </div>
+
+      <div class="checkbox-group">
+        <input type="checkbox" id="agree" name="agree" required>
+        <label for="agree">Tôi đồng ý nhận email phản hồi.</label>
+      </div>
+
+      <div class="buttons">
+        <button type="submit" class="submit-button">Gửi liên hệ</button>
+        <button type="reset" class="reset-button">Nhập lại</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

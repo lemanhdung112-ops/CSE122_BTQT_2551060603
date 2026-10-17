@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ cá nhân - Nguyễn Văn An</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 46px 24px;
+            background: #eef3f8;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        .cv {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            max-width: 1250px;
+            min-height: 550px;
+            margin: auto;
+            overflow: hidden;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .sidebar {
+            padding: 40px 30px;
+            background: linear-gradient(145deg, #1565c0, #0d3f7a);
+            color: #fff;
+            text-align: center;
+        }
+
+        .avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #fff;
+            color: #1565c0;
+            font-size: 56px;
+            font-weight: bold;
+        }
+
+        .sidebar h1 {
+            margin: 0 0 8px;
+            font-size: 27px;
+        }
+
+        .job-title {
+            margin: 0 0 35px;
+            font-size: 17px;
+        }
+
+        .contact {
+            text-align: left;
+            font-size: 16px;
+            line-height: 2.2;
+        }
+
+        .contact p {
+            margin: 0;
+        }
+
+        .content {
+            padding: 38px 44px;
+        }
+
+        .content section {
+            margin-bottom: 25px;
+        }
+
+        .content h2 {
+            margin: 0 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #e1eaf3;
+            color: #1565c0;
+            font-size: 24px;
+        }
+
+        .content p {
+            margin: 0;
+            font-size: 19px;
+            line-height: 1.7;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill {
+            padding: 8px 20px;
+            border-radius: 25px;
+            background: #e3f0ff;
+            color: #0d3f7a;
+            font-size: 17px;
+        }
+
+        .links a {
+            color: #1565c0;
+            font-size: 19px;
+        }
+
+        .links span {
+            color: #777;
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .cv {
+                display: block;
+            }
+
+            .sidebar {
+                padding: 30px 20px;
+            }
+
+            .avatar {
+                width: 130px;
+                height: 130px;
+                font-size: 45px;
+            }
+
+            .content {
+                padding: 28px 22px;
+            }
+
+            .content h2 {
+                font-size: 21px;
+            }
+
+            .content p,
+            .links a {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="cv">
+        <aside class="sidebar">
+            <div class="avatar" aria-label="Ảnh đại diện">NA</div>
+
+            <h1>Nguyễn Văn An</h1>
+            <p class="job-title">Sinh viên CNTT - K67</p>
+
+            <address class="contact">
+                <p>✉ an.nv@tlu.edu.vn</p>
+                <p>☎ 0987 654 321</p>
+                <p>⌂ Hà Nội</p>
+                <p>⚑ github.com/annv</p>
+            </address>
+        </aside>
+
+        <section class="content">
+            <section>
+                <h2>Giới thiệu</h2>
+                <p>
+                    Sinh viên năm 3 ngành Công nghệ thông tin, yêu thích lập trình
+                    web và thiết kế giao <br> diện. Đang tìm cơ hội thực tập vị trí
+                    Front-end Developer.
+                </p>
+            </section>
+
+            <section>
+                <h2>Kỹ năng</h2>
+                <div class="skills">
+                    <span class="skill">HTML5</span>
+                    <span class="skill">CSS3</span>
+                    <span class="skill">JavaScript</span>
+                    <span class="skill">Bootstrap</span>
+                    <span class="skill">Git</span>
+                </div>
+            </section>
+
+            <section>
+                <h2>Học vấn</h2>
+                <p>
+                    2023 – nay: Trường Đại học Thủy lợi (TLU), ngành Công nghệ
+                    thông tin.
+                </p>
+            </section>
+
+            <section class="links">
+                <h2>Liên kết</h2>
+                <a href="#" target="_blank">Portfolio</a>
+                <span> · </span>
+                <a href="#" target="_blank">Facebook</a>
+                <span> · </span>
+                <a href="#" target="_blank">LinkedIn</a>
+            </section>
+        </section>
+    </main>
+</body>
+</html>
